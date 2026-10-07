@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Search, BookOpen, ShieldCheck, Database, GitMerge, HardHat, LayoutTemplate, Lock, Zap } from "lucide-react";
+import { Search, BookOpen, ShieldCheck, Database, GitMerge, HardHat, LayoutTemplate, Lock, Zap, Users } from "lucide-react";
 
 export default function DocsPage() {
   const [activeSection, setActiveSection] = useState("overview");
@@ -189,7 +189,7 @@ export default function DocsPage() {
                     <Search color="var(--color-warning)" />
                     <div>
                       <strong>2. Database Scan</strong>
-                      <p style={{ color: "var(--color-text-muted)", fontSize: "0.875rem", margin: "0.25rem 0 0 0" }}>MongoDB searches for existing lead using `$or: [{phone}, {email}]`.</p>
+                      <p style={{ color: "var(--color-text-muted)", fontSize: "0.875rem", margin: "0.25rem 0 0 0" }}>MongoDB searches for existing lead using `$or: [{`{phone}`}, {`{email}`}]`.</p>
                     </div>
                   </li>
                   <li style={{ display: "flex", gap: "1rem" }}>

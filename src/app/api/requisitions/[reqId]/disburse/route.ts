@@ -4,12 +4,13 @@ import Requisition from "@/models/Requisition";
 import MaterialInventory from "@/models/MaterialInventory";
 import type { NextRequest } from "next/server";
 
-export async function PUT(req: NextRequest, { params }: { params: { reqId: string } }) {
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ reqId: string }> }) {
   try {
     await connectToDatabase();
     
     // We would normally verify the user is a storekeeper here
-    const requisition = await Requisition.findById(params.reqId);
+    const { reqId } = await params;
+    const requisition = await Requisition.findById(reqId);
     
     if (!requisition) return NextResponse.json({ error: "Not found" }, { status: 404 });
     if (requisition.status === "fully_disbursed") {

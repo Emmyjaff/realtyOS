@@ -1,8 +1,8 @@
-import { NextResponse } from "next";
+import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { verifyToken } from "@/lib/auth";
 
-export async function middleware(req: NextRequest) {
+export default async function proxy(req: NextRequest) {
   const token = req.cookies.get("auth_token")?.value;
 
   // Protect /api/upload and future protected routes

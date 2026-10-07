@@ -4,7 +4,7 @@ import Lead from "@/models/Lead";
 import { verifyToken } from "@/lib/auth";
 import type { NextRequest } from "next/server";
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     await connectToDatabase();
     
@@ -15,9 +15,10 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const rawData = await req.json();
+    const { id } = await params;
     
     // Find the lead first to verify ownership
-    const lead = await Lead.findById(params.id);
+    const lead = await Lead.findById(id);
     if (!lead) return NextResponse.json({ error: "Lead not found" }, { status: 404 });
 
     // Enforce Tenant Boundary

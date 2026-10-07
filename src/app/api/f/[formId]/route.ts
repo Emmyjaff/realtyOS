@@ -6,10 +6,11 @@ import Lead from "@/models/Lead";
 import xss from "xss";
 import type { NextRequest } from "next/server";
 
-export async function GET(req: NextRequest, { params }: { params: { formId: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ formId: string }> }) {
   try {
     await connectToDatabase();
-    const form = await Form.findById(params.formId).populate("linkedProperties", "title price images");
+    const { formId } = await params;
+    const form = await Form.findById(formId).populate("linkedProperties", "title price images");
     
     if (!form || !form.isActive) {
       return NextResponse.json({ error: "Form not found or inactive" }, { status: 404 });
@@ -21,10 +22,11 @@ export async function GET(req: NextRequest, { params }: { params: { formId: stri
   }
 }
 
-export async function POST(req: NextRequest, { params }: { params: { formId: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ formId: string }> }) {
   try {
     await connectToDatabase();
-    const form = await Form.findById(params.formId);
+    const { formId } = await params;
+    const form = await Form.findById(formId);
     
     if (!form || !form.isActive) {
       return NextResponse.json({ error: "Form not found or inactive" }, { status: 404 });
